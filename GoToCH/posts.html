@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+          crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <title>GoToCH посты</title>
+    <style>
+        .navbar {
+            background: none;
+            background-color: #009393;
+            border: none;
+            box-shadow: none;
+            color: white;
+        }
+        .navbar-brand {
+            color: white !important;
+            font-family: 'Lobster', cursive;
+            font-size: 30px;
+        }
+        .navbar-brand:hover {
+            color: white !important;
+        }
+        body {
+            background-color: #FFFCC4;
+        }
+        h3 {
+            color: #009393;
+            margin-bottom: 20px;
+        }
+        .btn-success {
+            background: none;
+            background-color: #009393;
+            border: none;
+        }
+        .btn-success:hover {
+            background: none;
+            background-color: #009393;
+            border: none;
+        img {
+            max-width: 90% !important;
+        }
+
+
+
+
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">GoToCH</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin-top: 60px;">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h2>Посты в треде "{{ thread }}"</h2>
+
+            <ul>
+                {% for i in posts %}
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color:#fff">
+                        <strong>{{ i['auth'] }} </strong>
+                        <p>{{ i['text'] }} </p>
+                        <p><a class="btn btn-default btn-sm" href="/thread/like?id={{ i['id'] }}&thread={{ id}} "
+                              role="button">&#9745; нравится</a>{{ i['like'] }}</p>
+                        {% if len(i['comment'])!=0 %}
+                            {% for comments in i['comment'] %}
+                                <p><strong>{{comments['name'] }}</strong> оставил комментарий:</p>
+                                <p>{{comments['text']}}</p>
+                            {% end %}
+                        {% end %}
+                        <form method="post" action="/thread/comment?thread={{id}}&id={{ i['id'] }}">
+                            Имя: <input type="text" name="name">
+                            <textarea cols="130" rows="3" name="comment" placeholder="Оставьте комментарий"></textarea>
+                            <button type="submit" class="btn btn-default">оставить комментарий</button>
+                        </form>
+                    </div>
+                </div>
+                {% end %}
+            </ul>
+
+            <form method="post">
+                <div class="form-group">
+                    <h4>Добавить пост</h4>
+                    <label>Имя</label>
+                    <input type="text" name="name" placeholder="Введите имя"><br>
+                    <br>
+                    <textarea cols="150" rows="10" name="post" placeholder="Текст поста"></textarea>
+                </div>
+                <button type="submit" class="btn btn-default">Опубликовать пост</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
